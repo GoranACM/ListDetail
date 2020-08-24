@@ -1,10 +1,16 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 export const HomeScreen = (props) => {
+
+    // Instantiate the navigation object
+    const navigation = useNavigation()
+
     return(
         <View style={styles.container}>
-            <Text>Home Screen</Text>
+            <Text>{ props.text }</Text>
+            <Button title={"Go to detail"} onPress={ () => { navigation.navigate("Detail") } }/>
         </View>
     )
 }
