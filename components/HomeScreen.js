@@ -8,11 +8,17 @@ export const HomeScreen = (props) => {
     const navigation = useNavigation()
 
     const renderList = ({ item }) => (
-        <ListItem id={ item.id } category={ item.category } amount={ item.amount } />
+        <ListItem 
+            id={ item.id } 
+            category={ item.category } 
+            amount={ item.amount } 
+            clickHandler = { showDetail }
+            item = { item }
+        />
     )
 
     const showDetail = ( item ) => {
-        
+        navigation.navigate("Detail", item )
     }
 
     return(
@@ -30,10 +36,12 @@ export const HomeScreen = (props) => {
 
 const ListItem = (props) => {
     return (
-        <View style={ styles.listItem }>
-            <Text>{ props.category }</Text>
-            <Text>$ { props.amount }</Text>
-        </View>
+        <TouchableOpacity onPress={ () => props.clickHandler( props.item ) }>
+            <View style={ styles.listItem }>
+                <Text>{ props.category }</Text>
+                <Text>$ { props.amount }</Text>
+            </View>
+        </TouchableOpacity>       
     )
 } 
 
@@ -46,6 +54,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
         justifyContent: 'center',
+        paddingTop: 10,
     },
     listItem: {
         paddingHorizontal: 15,
