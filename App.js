@@ -1,6 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+// Firebase config
+import { firebaseConfig } from './config/firebase';
+// Firebase library
+import * as firebase from 'firebase';
+// Initialize application
+if (!firebase.apps.length) {
+  firebase.initializeApp( firebaseConfig );
+}
+
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
