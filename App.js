@@ -16,6 +16,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { HomeScreen } from './components/HomeScreen';
 import { DetailScreen } from './components/DetailScreen';
+import { AuthScreen } from './components/AuthScreen';
 
 const Data = [
   {  
@@ -77,6 +78,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Register" component={ AuthScreen } />
         <Stack.Screen name="Home">
           { (props) => <HomeScreen {...props} text="Hello Home Screen" data={ listData }/> }
         </Stack.Screen>
