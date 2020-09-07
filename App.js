@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 // Firebase config
@@ -75,18 +75,29 @@ export default function App() {
 
   const listData = Data
 
-  const register = (email, password) => {
-    firebase.auth().createUserWithEmailAndPassword( email, password )
+  const [auth, setAuth] = useState(false)
+
+  const register = (intent, email, password) => {
+    if (intent == 'register') {
+      firebase.auth().createUserWithEmailAndPassword( email, password )
     .catch( error => console.log(error) )
+    }
+    else if (intent == 'login') {
+      firebase.auth().signInWithEmailAndPassword( email, password )
+    .catch( error => console.log(error) )
+    }
+    
   }
 
   firebase.auth().onAuthStateChanged( (user) => {
     if ( user ) {
       // Go to home screen onced signed in
+      setAuth(true)
       console.log('User loged in')
     }
     else {
       // Go back to Auth page
+      setAuth(false)
       console.log('User NOT logged in')
     }
   })
@@ -95,7 +106,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Register">
-          { (props) => <AuthScreen {...props} signup={ register } /> }
+          { (props) => <AuthScreen {...props} signup={ register } loggedIn={ auth } /> }
         </Stack.Screen>
         <Stack.Screen name="Home">
           { (props) => <HomeScreen {...props} text="Hello Home Screen" data={ listData }/> }
