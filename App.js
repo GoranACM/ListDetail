@@ -115,6 +115,7 @@ export default function App() {
             headerTitle: "Expenses",
             headerRight: () => (
               <TouchableOpacity
+                style={ styles.signOut }
                 onPress={ () => {
                   firebase.auth().signOut().then( () => {
                     setAuth(false)
@@ -122,7 +123,7 @@ export default function App() {
                   })                
                 }}
               >
-                <Text>Sign out</Text>
+                <Text style={ styles.signOutText }>Sign out</Text>
               </TouchableOpacity>
             )
           }) }  
@@ -141,5 +142,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  signOut: {
+    marginRight: 10,
+    padding: 5,
+    backgroundColor: '#777777',
+    borderRadius: 5,
+  },
+  signOutText: {
+    color: '#eeeeee'
   },
 });

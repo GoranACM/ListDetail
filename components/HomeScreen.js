@@ -1,8 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Button, FlatList } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { TextInput } from 'react-native-gesture-handler'
+import RNPickerSelect from 'react-native-picker-select'
+// import Picker from '@react-native-community/picker'
+
+
 
 export const HomeScreen = (props) => {
+
+    selectItems = [
+        {label: "Food", value: "food"},
+        {label: "Transport", value: "transport"},
+        {label: "Groceries", value: "groceries"},
+        {label: "Bills", value: "bills"},
+    ]
+
+    const [category, setCategory] = useState(null)
+    const [amount, setAmount] = useState(0)
+    const [note, setNote] = useState(null)
 
     // Instantiate the navigation object
     const navigation = useNavigation()
@@ -23,7 +39,20 @@ export const HomeScreen = (props) => {
 
     return(
         <View style={ styles.container }>
-            <Text style={ styles.title }>{ props.text }</Text>
+            <View>
+                <TextInput placeholder="amount" style={styles.input} onChangeText={ (amount)=>setAmount(amount) }/>
+                <RNPickerSelect 
+                    style={ styles.picker }
+                    onValueChange={ (value) => setCategory(value) }
+                    items = { selectItems }
+                    useNativeAndroidPickerStyle={false}
+                />
+                <TextInput placeholder="notes" style={styles.input} onChangeText={ (note)=>setNote(note) }/>
+                {/* <Picker style={ {height: 30, width: 10} }>
+                    <Picker.Item label="food" value="food" />
+                    <Picker.Item label="bills" value="bills" />
+                </Picker> */}
+            </View>
             <FlatList 
                 data = { props.data }
                 renderItem = { renderList }
@@ -48,13 +77,29 @@ const ListItem = (props) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      paddingHorizontal: 10,
     },
     title: {
         textAlign: 'center',
         fontSize: 20,
         justifyContent: 'center',
         paddingTop: 10,
+    },
+    input: {
+        padding: 10,
+        marginVertical: 15,
+        backgroundColor: '#ffffff',
+        borderColor: '#cccccc',
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+    picker: {
+        padding: 10,
+        marginVertical: 15,
+        backgroundColor: '#ffffff',
+        borderColor: '#cccccc',
+        borderWidth: 1,
+        borderRadius: 10,
     },
     listItem: {
         paddingHorizontal: 15,
