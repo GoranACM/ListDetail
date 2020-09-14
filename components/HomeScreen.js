@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Button, FlatList } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { TextInput } from 'react-native-gesture-handler'
-import RNPickerSelect from 'react-native-picker-select'
+import { Select } from './Select'
+//import RNPickerSelect from 'react-native-picker-select'
 // import Picker from '@react-native-community/picker'
 
 
@@ -41,12 +42,13 @@ export const HomeScreen = (props) => {
         <View style={ styles.container }>
             <View>
                 <TextInput placeholder="amount" style={styles.input} onChangeText={ (amount)=>setAmount(amount) }/>
-                <RNPickerSelect 
+                <Select items={ selectItems }/>
+                {/* <RNPickerSelect 
                     style={ styles.picker }
                     onValueChange={ (value) => setCategory(value) }
                     items = { selectItems }
                     useNativeAndroidPickerStyle={false}
-                />
+                /> */}
                 <TextInput placeholder="notes" style={styles.input} onChangeText={ (note)=>setNote(note) }/>
                 {/* <Picker style={ {height: 30, width: 10} }>
                     <Picker.Item label="food" value="food" />
