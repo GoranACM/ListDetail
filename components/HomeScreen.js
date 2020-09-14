@@ -42,7 +42,7 @@ export const HomeScreen = (props) => {
         <View style={ styles.container }>
             <View>
                 <TextInput placeholder="amount" style={styles.input} onChangeText={ (amount)=>setAmount(amount) }/>
-                <Select items={ selectItems }/>
+                <Select items={ selectItems } onSelect={ setCategory }/>
                 {/* <RNPickerSelect 
                     style={ styles.picker }
                     onValueChange={ (value) => setCategory(value) }
