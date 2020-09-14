@@ -21,6 +21,30 @@ export const HomeScreen = (props) => {
     const [amount, setAmount] = useState(0)
     const [note, setNote] = useState(null)
 
+    const[validAmount, setValidAmount] = useState(false)
+
+    const validateAmount = (amount) => {
+        if ( parseFloat(amount) ) {
+            setValidAmount(true)
+        }
+        else {
+            setValidAmount(false)
+        }
+    }
+
+    const addItem = () => {
+        const itemId = new Date().getTime()
+        const itemAmount = amount
+        const itemCategory = category
+        const itemNote = note
+        props.add({
+            id: itemId,
+            amount: itemAmount,
+            category: itemCategory,
+            note: itemNote
+        })
+    }
+
     // Instantiate the navigation object
     const navigation = useNavigation()
 
@@ -41,7 +65,11 @@ export const HomeScreen = (props) => {
     return(
         <View style={ styles.container }>
             <View>
-                <TextInput placeholder="amount" style={styles.input} onChangeText={ (amount)=>setAmount(amount) }/>
+                <TextInput 
+                    placeholder="amount" 
+                    style={styles.input} 
+                    onChangeText={ (amount) => validateAmount(amount) }
+                />
                 <Select items={ selectItems } onSelect={ setCategory }/>
                 {/* <RNPickerSelect 
                     style={ styles.picker }
@@ -54,6 +82,13 @@ export const HomeScreen = (props) => {
                     <Picker.Item label="food" value="food" />
                     <Picker.Item label="bills" value="bills" />
                 </Picker> */}
+                <TouchableOpacity 
+                    style={ validAmount && category ? styles.button : styles.buttonDisabled }
+                    disabled={ validAmount && category ? false : true }
+                    onPress={ () =>  { addItem() } }
+                >
+                    <Text style={ styles.buttonText }>Add</Text>
+                </TouchableOpacity>
             </View>
             <FlatList 
                 data = { props.data }
@@ -110,5 +145,21 @@ const styles = StyleSheet.create({
         borderBottomColor: 'gray',
         flexDirection: 'row',
         justifyContent: 'space-between'
-    }
+    },
+    button: {
+        padding: 10,
+        backgroundColor: '#33ffcc',
+        paddingHorizontal: 10,
+        borderRadius: 10,
+    },
+    buttonDisabled: {
+        padding: 10,
+        backgroundColor: '#c0f9eb',
+        paddingHorizontal: 10,
+        borderRadius: 10,
+    },
+    buttonText: {
+        textAlign: 'center',
+        color: '#333333',
+    },
   });
