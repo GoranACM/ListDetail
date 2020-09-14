@@ -74,7 +74,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
 
-  const listData = Data
+  let listData = []
 
   const [auth, setAuth] = useState(false)
   const [dataRef, setDataRef] = useState(false)
@@ -104,11 +104,30 @@ export default function App() {
     firebase.database().ref(`${dataRef}/items/${item/id}`).set(dataObj)
   }
 
+  // Get data from Firebase
+  const readData = () => {
+    if ( !dataRef ) {
+      return;
+    }
+    let data = []
+    firebase.database().ref(`${dataRef}/items`).on('value', (snapshot) => {
+      const dataObj = snapshot.val()
+      const keys = Object.keys( dataObj )
+      keys.forEach( (key) => {
+        let item = dataObj[key]
+        item.id = key
+        listData.push( item )
+      })
+      // listData = data;
+    })
+  }
+
   firebase.auth().onAuthStateChanged( (user) => {
     if ( user ) {
       // Go to home screen once signed in
       setAuth(true)
       setDataRef(`users/${user.uid}`)
+      readData()
       //console.log('User loged in')
     }
     else {
