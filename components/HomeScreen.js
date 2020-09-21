@@ -95,6 +95,7 @@ export const HomeScreen = (props) => {
                 data = { props.data }
                 renderItem = { renderList }
                 keyExtractor = { item => item.id }
+                extraData = { props.extra }
             />
             {/* <Button title={"Go to detail"} onPress={ () => { navigation.navigate("Detail") } }/> */}
         </View>

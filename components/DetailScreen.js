@@ -1,27 +1,55 @@
-import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
+import { DateFormat } from './DateFormat'
 
 export const DetailScreen = ( props ) => {
-    return(
-        <View style={styles.container}>
-            <Text style={ styles.title }>Detail Screen</Text>
-            <Text>id: { props.route.params.id }</Text>
-            <Text>amount: { props.route.params.amount }</Text>
-            <Text>category: { props.route.params.category }</Text>
-            <Text>note: { props.route.params.note }</Text>
+
+    const [amount, setAmount] = useState(props.route.params.amount)
+    const [editing, setEditing] = useState(false)
+
+    return (
+        <View>
+        <Text style={[ styles.amount, { display: editing ? 'none' : 'flex'} ]}>
+            $ {amount}
+        </Text>
+        <TextInput 
+            placeholder={ amount } 
+            style={[ styles.amount, { display: editing ? 'flex' : 'none'} ]}
+            onChangeText={ (amount) => { setAmount(amount) }}
+        />
+        <Button 
+            title={ editing ? "Save" : "Edit" } 
+            onPress={ () => { 
+                if( editing ) {
+                    setEditing(false)
+                    let item = {
+                        amount: amount,
+                        note: props.route.params.note,
+                        category: props.route.params.category,
+                        id: props.route.params.id
+                    }
+                    props.update( item )
+                } else {
+                    setEditing(true)
+                }
+            }}
+        />
+        <DateFormat date={props.route.params.id} styling={styles.date} />
+        <Text>category: {props.route.params.category}</Text>
+        <Text>note: {props.route.params.note}</Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-      },
-      title: {
-          textAlign: 'center',
-          fontSize: 20,
-          justifyContent: 'center',
-          paddingTop: 10,
-      },
-  });
+  amount: {
+    textAlign: 'center',
+    fontSize: 32,
+    marginVertical: 15,
+  },
+  date: {
+    textAlign: 'center',
+    marginVertical: 10,
+    fontWeight: '700',
+  },
+})
